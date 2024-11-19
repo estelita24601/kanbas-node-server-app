@@ -1,11 +1,13 @@
 // import express
-import express from 'express';
-import Hello from './Hello.js';
-import Lab5 from "../kanbas-react-app/src/Labs/Lab5/index.js";
+import express from "express";
+import cors from "cors";
+import Hello from "./Hello.js";
+import Lab5 from "./Lab5/index.js";
 
 // create instance of express
 const app = express();
-app.use(express.json()) //QUESTION: what does this do?
+app.use(cors()); //set policy for http requests
+app.use(express.json()); //we can receive data from client inside of the request body instead of params
 
 Lab5(app);
 Hello(app);
