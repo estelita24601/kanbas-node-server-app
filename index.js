@@ -43,8 +43,8 @@ app.use(
 //let us receive data from client inside of the request body
 app.use(express.json());
 
-UserRoutes(app);
-CourseRoutes(app);
+UserRoutes(app); //4.2 - 4.3 User Sessions
+CourseRoutes(app); //4.4 Courses API
 Lab5(app);
 Hello(app);
 
