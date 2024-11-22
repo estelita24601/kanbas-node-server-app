@@ -38,9 +38,10 @@ export default function CourseRoutes(app) {
         res.send(status);
     });
 
-    //fixme: 4.5.1
+    //4.5.1
     app.get("/api/courses/:courseId/modules", (req, res) => {
         const { courseId } = req.params;
+        console.log(`SERVER(Courses Route) - looking for modules from course ${courseId}`)
         const modules = modulesDao.findModulesForCourse(courseId);
         res.json(modules);
     });
