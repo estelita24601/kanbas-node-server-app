@@ -54,6 +54,7 @@ export default function CourseRoutes(app) {
             course: courseId,
         };
         const newModule = modulesDao.createModule(module);
+        //QUESTION: why isn't this res.json(newModule)
         res.send(newModule);
     });
 
