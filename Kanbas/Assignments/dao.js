@@ -1,13 +1,36 @@
 import Database from "../Database/index.js";
 
+
+
 //get assignments for this course
 export function getAssignments(courseID) {
-    return Database.assignments.filter((assignment) => assignment.course === courseID)
+    return Database.assignments.filter((assignment) => assignment.course === courseID);
+}
+
+export function getAssignment(assignmentID){
+    return Database.assignments.filter((assignment) => assignment._id === assignmentID);
 }
 
 //create new assignment for this course
 export function createAssignment(assignment) {
-    const newAssignment = { ...assignment, _id: Date.now().toString() };
+    const newAssignment = {
+        _id: Date.now().toString(),
+        title: "",
+        available_date: "",
+        available_time: "",
+        due_by_date: "",
+        due_by_time: "",
+        until_date: "",
+        until_time: "",
+        description: "",
+        points: "",
+        group: "ASSIGNMENTS",
+        grade_display: "",
+        submission_type: "",
+        entry_options: [],
+        assigned_to: "Everyone",
+        ...assignment
+    };
     Database.assignments = [...Database.assignments, newAssignment];
     return newAssignment;
 }
@@ -15,19 +38,22 @@ export function createAssignment(assignment) {
 //update an assignment
 export function updateAssignment(assignmentID, assignmentUpdates) {
     const oldAssignment = Database.assignments.find((assignment) => assignment._id === assignmentID);
+    console.log(`PUT REQUEST - ${JSON.stringify(oldAssignment)}`)
+
     Object.assign(oldAssignment, assignmentUpdates);
     return oldAssignment;
 }
 
 //delete assignment from this course
 export function deleteAssignment(assignmentID) {
-    const { assignments } = Database.assignments;
-    const initialSize = assignments.length;
+    const { assignments } = Database;
 
-    Database.assignments = assignments.filter(
-        (assignment) => assignment._id !== assignmentID
-    )
+    const assignmentIndex = assignments.findIndex((assignment) => assignment._id === assignmentID);
 
-    //return how many assignments we deleted
-    return initialSize - Database.assignments.length;
+    //if we were able to find the assignment inside of the db then delete it
+    if (assignmentIndex !== -1) {
+        assignments.splice(assignmentIndex, 1);
+    }
+
+    return assignmentIndex;
 }

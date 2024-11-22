@@ -4,7 +4,7 @@ import Database from "../Database/index.js";
 //get all the modules from the database, then filter them based on the given course ID
 export function findModulesForCourse(courseId) {
     const { modules } = Database;
-    console.log(`SERVER(Modules DAO) - filtering modules ${courseId}`)
+    console.log(`Modules DAO - filtering modules ${courseId}`)
     return modules.filter((module) => {
         const include_module = module.course === courseId;
         console.log(`\t${include_module}: module.course = ${module.course}`);

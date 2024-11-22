@@ -41,7 +41,7 @@ export default function CourseRoutes(app) {
     //4.5.1
     app.get("/api/courses/:courseId/modules", (req, res) => {
         const { courseId } = req.params;
-        console.log(`SERVER(Courses Route) - looking for modules from course ${courseId}`)
+        console.log(`COURSES API - looking for modules from course ${courseId}`)
         const modules = modulesDao.findModulesForCourse(courseId);
         res.json(modules);
     });
