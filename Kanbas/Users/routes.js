@@ -72,7 +72,6 @@ export default function UserRoutes(app) {
         }
         res.json(currentUser);
     };
-
     app.post("/api/users/profile", profile);
 
     //4.4.2

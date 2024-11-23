@@ -26,9 +26,12 @@ const sessionOptions = {
     secret: process.env.SESSION_SECRET || "kanbas",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        sameSite: "lax",
+        secure: false,
+    },
 };
 
-//QUESTION: turn on proxy support if we're in production???
 if (process.env.NODE_ENV !== "development") {
     sessionOptions.proxy = true;
     sessionOptions.cookie = {

@@ -17,7 +17,7 @@ export default function AssignmentRoutes(app) {
     })
 
     app.post(`${API}`, (request, response) => {
-        const { assignment } = request.body;
+        const assignment = request.body;
         const newAssignment = dao.createAssignment(assignment);
         console.log(`ASSIGNMENTS API - post request`)
         response.json(newAssignment);
@@ -25,8 +25,8 @@ export default function AssignmentRoutes(app) {
 
     app.put(`${API}/:assignmentId`, (request, response) => {
         const { assignmentId } = request.params;
-        const { assignment } = request.body;
-        console.log(`ASSIGNMENTS API - put request, assignmentId = ${assignmentId}`);
+        const assignment = request.body;
+        console.log(`ASSIGNMENTS API -\n\tput request, assignmentId = ${assignmentId}\n\t${JSON.stringify(assignment, null, 2)}`);
         const updatedAssignment = dao.updateAssignment(assignmentId, assignment);
         response.json(updatedAssignment);
     });

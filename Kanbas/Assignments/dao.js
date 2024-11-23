@@ -1,14 +1,12 @@
 import Database from "../Database/index.js";
 
-
-
 //get assignments for this course
 export function getAssignments(courseID) {
     return Database.assignments.filter((assignment) => assignment.course === courseID);
 }
 
-export function getAssignment(assignmentID){
-    return Database.assignments.filter((assignment) => assignment._id === assignmentID);
+export function getAssignment(assignmentID) {
+    return Database.assignments.find((assignment) => assignment._id === assignmentID);
 }
 
 //create new assignment for this course
@@ -38,9 +36,10 @@ export function createAssignment(assignment) {
 //update an assignment
 export function updateAssignment(assignmentID, assignmentUpdates) {
     const oldAssignment = Database.assignments.find((assignment) => assignment._id === assignmentID);
-    console.log(`PUT REQUEST - ${JSON.stringify(oldAssignment)}`)
 
     Object.assign(oldAssignment, assignmentUpdates);
+
+    console.log(`AFTER EDITS:\n${JSON.stringify(oldAssignment, null, 4)}`)
     return oldAssignment;
 }
 
