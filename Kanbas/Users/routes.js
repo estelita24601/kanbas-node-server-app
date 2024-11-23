@@ -47,6 +47,7 @@ export default function UserRoutes(app) {
 
         if (currentUser) {
             req.session["currentUser"] = currentUser;
+            res.status(200);
             res.json(currentUser);
         } else {
             res.status(401).json({ message: "Unable to login. Try again later." });
@@ -63,7 +64,7 @@ export default function UserRoutes(app) {
     app.post("/api/users/signout", signout);
 
     //4.2.4 and 4.3.1
-    const profile = (req, res) => {
+    const getProfile = (req, res) => {
         const currentUser = req.session["currentUser"];
         if (!currentUser) {
             //send error status if current user doesn't exist
@@ -72,7 +73,7 @@ export default function UserRoutes(app) {
         }
         res.json(currentUser);
     };
-    app.post("/api/users/profile", profile);
+    app.post("/api/users/profile", getProfile);
 
     //4.4.2
     const createCourse = (req, res) => {
@@ -82,5 +83,4 @@ export default function UserRoutes(app) {
         res.json(newCourse);
     };
     app.post("/api/users/current/courses", createCourse);
-
 }

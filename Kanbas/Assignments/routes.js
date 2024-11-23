@@ -1,4 +1,3 @@
-import assignments from "../Database/assignments.js";
 import * as dao from "./dao.js";
 const API = "/api/assignments"
 
@@ -39,7 +38,6 @@ export default function AssignmentRoutes(app) {
 
         if (deleteIndex === -1) {
             response.status(404).json({ message: `Unable to delete assignment with ID ${assignmentId}` });
-            return;
         } else {
             response.sendStatus(200);
         }
