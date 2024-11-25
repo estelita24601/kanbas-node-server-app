@@ -9,6 +9,7 @@ import UserRoutes from "./Kanbas/Users/routes.js";
 import CourseRoutes from "./Kanbas/Courses/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
+import EnrollmentsRoutes from "./Kanbas/Enrollments/routes.js";
 
 // create instance of express
 const app = express();
@@ -52,6 +53,7 @@ UserRoutes(app); //4.2 - 4.3 User Sessions
 CourseRoutes(app); //4.4 Courses API
 ModuleRoutes(app); //4.5 Modules API
 AssignmentRoutes(app); //4.6 Assignments API
+EnrollmentsRoutes(app);
 Lab5(app);
 Hello(app);
 

@@ -12,7 +12,7 @@ export default [
   {
     "_id": "10",
     "user": "234",
-    "course": "RS102"
+    "course": "RS103"
   },
   {
     "_id": "3",

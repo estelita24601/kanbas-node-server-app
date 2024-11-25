@@ -39,7 +39,7 @@ export function updateAssignment(assignmentID, assignmentUpdates) {
 
     Object.assign(oldAssignment, assignmentUpdates);
 
-    console.log(`AFTER EDITS:\n${JSON.stringify(oldAssignment, null, 4)}`)
+    console.log(`\tAFTER EDITS:\n${JSON.stringify(oldAssignment, null, 4)}`)
     return oldAssignment;
 }
 
