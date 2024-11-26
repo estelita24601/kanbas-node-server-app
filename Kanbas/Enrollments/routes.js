@@ -7,7 +7,7 @@ export default function EnrollmentsRoutes(app) {
         console.log(`ENROLLMENTS API - getRequest, userId = ${userId}`);
 
         const userEnrollments = dao.getUserEnrollments(userId);
-        // console.log(`${JSON.stringify(userEnrollments, null, 2)}`);
+        console.log(`\t${JSON.stringify(userEnrollments, null, 2)}`);
         res.json(userEnrollments);
     })
 
@@ -16,6 +16,7 @@ export default function EnrollmentsRoutes(app) {
         console.log(`ENROLLMENTS API - post request, courseId = ${courseId} and userId = ${userId}`);
 
         const numAdded = dao.enrollUserInCourse(userId, courseId);
+        console.log(`added ${numAdded} enrollments to the database`)
         if (numAdded === 1) {
             res.status(200);
         } else {
@@ -27,10 +28,10 @@ export default function EnrollmentsRoutes(app) {
         const { courseId, userId } = req.params;
         console.log(`ENROLLMENTS API - delete request, courseId = ${courseId} and userId = ${userId}`);
 
-        const numDeleted = dao.removeEnrollment(userId, courseId);
-        console.log(`\tRemoved ${numDeleted} enrollments`)
+        const numRemoved = dao.removeEnrollment(userId, courseId);
+        console.log(`\tRemoved ${numRemoved} enrollments`)
 
-        if (numDeleted <= 0) {
+        if (numRemoved <= 0) {
             res.status(404).json({ message: `unable to remove user ${userId} from course ${courseId}` });
         } else {
             res.sendStatus(200);

@@ -10,11 +10,6 @@ export default [
     "course": "RS101"
   },
   {
-    "_id": "10",
-    "user": "234",
-    "course": "RS103"
-  },
-  {
     "_id": "3",
     "user": "345",
     "course": "RS101"
@@ -48,5 +43,10 @@ export default [
     "_id": "9",
     "user": "123",
     "course": "RS102"
+  },
+  {
+    "_id": "10",
+    "user": "234",
+    "course": "RS106"
   }
 ]
