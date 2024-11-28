@@ -9,38 +9,34 @@ export default function UserRoutes(app) {
     const deleteUser = async (req, res) => { };
     app.delete("/api/users/:userId", deleteUser);
 
-    //fixme
     const findAllUsers = async (req, res) => {
         const { role, name } = req.query;
 
-        /* if (role && name) {
-             console.log("User Routes - trying to filter by role and name");
-             const usersByRole = await dao.findUsersByRole(role);
+        if (role && name) {
+            //if they queried by both filter by role and name
+            const usersByRole = await dao.findUsersByRole(role);
 
-             const usersByName = await dao.findUserByPartialName(role);
-             const usersByNameJson = JSON.stringify(usersByName);
+            const usersByName = await dao.findUserByPartialName(role);
+            const usersByNameJson = usersByName.map(u => JSON.stringify(u));
 
-             const filteredUsers = usersByRole.filter(u => {
-                 if (usersByNameJson.includes(JSON.stringify(u))) {
-                     return true;
-                 } else {
-                     return false;
-                 }
-             });
-             res.json(filteredUsers);
-         }
-         else*/
-        if (role) {
-            console.log("User Routes - trying to filter by role");
-            //if they queried by role filter the users we send back
+            const filteredUsers = usersByRole.filter(u => {
+                if (usersByNameJson.includes(JSON.stringify(u))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            res.json(filteredUsers);
+        }
+        else if (role) {
+            //if they queried by role only return users with the correct role
             const filteredUsers = await dao.findUsersByRole(role);
             res.json(filteredUsers);
         } else if (name) {
-            console.log("User Routes - trying to filter by name");
+            //if they queried by name only return users that match
             const filteredUsers = await dao.findUserByPartialName(name);
             res.json(filteredUsers);
         } else {
-            console.log("User Routes - returning all users");
             //otherwise return all the users
             const allUsers = await dao.findAllUsers();
             res.json(allUsers);
