@@ -45,6 +45,7 @@ if (process.env.NODE_ENV !== "development") {
         secure: true,
         domain: process.env.NODE_SERVER_DOMAIN,
     };
+
 }
 
 app.use(

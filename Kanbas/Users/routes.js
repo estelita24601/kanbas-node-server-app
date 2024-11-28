@@ -13,23 +13,24 @@ export default function UserRoutes(app) {
     const findAllUsers = async (req, res) => {
         const { role, name } = req.query;
 
-        if (role && name) {
-            console.log("User Routes - trying to filter by role and name");
-            const usersByRole = await dao.findUsersByRole(role);
+        /* if (role && name) {
+             console.log("User Routes - trying to filter by role and name");
+             const usersByRole = await dao.findUsersByRole(role);
 
-            const usersByName = await dao.findUserByPartialName(role);
-            const usersByNameJson = JSON.stringify(usersByName);
+             const usersByName = await dao.findUserByPartialName(role);
+             const usersByNameJson = JSON.stringify(usersByName);
 
-            const filteredUsers = usersByRole.filter(u => {
-                if (usersByNameJson.includes(JSON.stringify(u))) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-            res.json(filteredUsers);
-        }
-        else if (role) {
+             const filteredUsers = usersByRole.filter(u => {
+                 if (usersByNameJson.includes(JSON.stringify(u))) {
+                     return true;
+                 } else {
+                     return false;
+                 }
+             });
+             res.json(filteredUsers);
+         }
+         else*/
+        if (role) {
             console.log("User Routes - trying to filter by role");
             //if they queried by role filter the users we send back
             const filteredUsers = await dao.findUsersByRole(role);
@@ -41,7 +42,7 @@ export default function UserRoutes(app) {
         } else {
             console.log("User Routes - returning all users");
             //otherwise return all the users
-            const allUsers = findAllUsers();
+            const allUsers = await dao.findAllUsers();
             res.json(allUsers);
         }
     };
