@@ -3,10 +3,16 @@ import * as courseDao from "../Courses/dao.js";
 import * as enrollmentsDao from "../Enrollments/dao.js";
 
 export default function UserRoutes(app) {
-    const createUser = async (req, res) => { };
+    const createUser = async (req, res) => {
+        const user = await dao.createUser(req.body);
+        res.json(user);
+    };
     app.post("/api/users", createUser);
 
-    const deleteUser = async (req, res) => { };
+    const deleteUser = async (req, res) => {
+        const status = await dao.deleteUser(req.params.userId);
+        res.json(status);
+    };
     app.delete("/api/users/:userId", deleteUser);
 
     const findAllUsers = async (req, res) => {
@@ -51,11 +57,18 @@ export default function UserRoutes(app) {
     app.get("/api/users/:userId", findUserById);
 
     const updateUser = async (req, res) => {
+        //update the user we were given
         const userId = req.params.userId;
         const userUpdates = req.body;
         await dao.updateUser(userId, userUpdates);
-        const currentUser = await dao.findUserById(userId);
-        req.session["currentUser"] = currentUser;
+
+        //see if user currently logged in is the same as user we just updated
+        const currentUser = req.session["currentUser"];
+        if (currentUser && currentUser._id === userId) {
+            //update the current user in the session as well as the db
+            req.session["currentUser"] = { ...currentUser, ...userUpdates };
+        }
+
         res.json(currentUser);
     };
     app.put("/api/users/:userId", updateUser);
@@ -107,9 +120,11 @@ export default function UserRoutes(app) {
 
     const createCourse = async (req, res) => {
         const currentUser = req.session["currentUser"];
+
         //TODO: add await keyword once we've connected the course dao and enrollments dao to mongodb
         const newCourse = courseDao.createCourse(req.body);
         enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+
         res.json(newCourse);
     };
     app.post("/api/users/current/courses", createCourse);

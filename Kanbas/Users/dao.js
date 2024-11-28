@@ -1,9 +1,8 @@
 import model from "./model.js";
 
 export const createUser = (user) => {
-  const newUser = { ...user, _id: Date.now().toString() };
-  users = [...users, newUser];
-  return newUser;
+  delete user._id; //we want the database to create the ID for us
+  return model.create(user);
 };
 
 export const findAllUsers = () => model.find();
