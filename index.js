@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import cors from "cors";
+import mongoose from "mongoose";
 import "dotenv/config";
 
 import Hello from "./Hello.js";
@@ -10,6 +11,10 @@ import CourseRoutes from "./Kanbas/Courses/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 import EnrollmentsRoutes from "./Kanbas/Enrollments/routes.js";
+
+//connect to our database
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
+mongoose.connect(CONNECTION_STRING);
 
 // create instance of express
 const app = express();
