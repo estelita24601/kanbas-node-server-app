@@ -14,8 +14,9 @@ import EnrollmentsRoutes from "./Kanbas/Enrollments/routes.js";
 
 //connect to our database
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
-mongoose.connect(CONNECTION_STRING);
-//mongoose.set('debug', true);
+mongoose.connect(CONNECTION_STRING)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((error) => console.error("Error connecting to MongoDB:", error));;
 
 // create instance of express
 const app = express();
@@ -55,6 +56,12 @@ app.use(
 
 //let us receive data from client inside of the request body
 app.use(express.json());
+
+//TESTING only
+app.get("/test1", (req, res) => {
+    res.send("connected to server!");
+});
+
 
 UserRoutes(app); //4.2 - 4.3 User Sessions
 CourseRoutes(app); //4.4 Courses API
