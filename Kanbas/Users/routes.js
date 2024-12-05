@@ -18,6 +18,12 @@ export default function UserRoutes(app) {
     const findAllUsers = async (req, res) => {
         const { role, name } = req.query;
 
+        //testing: just immediately send all users and print to log
+        const allUsers = await dao.findAllUsers();
+        res.json(allUsers);
+        console.log(`${JSON.stringify(allUsers, null, 2)}`);
+        return;
+
         if (role && name) {
             //if they queried by both filter by role and name
             const usersByRole = await dao.findUsersByRole(role);
@@ -47,6 +53,8 @@ export default function UserRoutes(app) {
             const allUsers = await dao.findAllUsers();
             res.json(allUsers);
         }
+
+
     };
     app.get("/api/users", findAllUsers);
 

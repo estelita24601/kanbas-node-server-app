@@ -18,8 +18,8 @@ export function findCoursesForEnrolledUser(userId) {
 }
 
 export function createCourse(course) {
-  const createdCourse = model.create(course);
-  return createdCourse;
+  delete course._id; //remove any existing id so our db set the id
+  return model.create(course);
 
   //timestamp id for the course
   // const newCourse = { ...course, _id: Date.now().toString() };
