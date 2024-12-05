@@ -1,10 +1,4 @@
 import Database from "../Database/index.js";
-// {
-//     "_id": "1",
-//     "user": "123",
-//     "course": "RS101"
-//   },
-
 
 export function enrollUserInCourse(userId, courseId) {
     console.log(`\tDAO - add user ${userId} to course ${courseId}`)

@@ -7,7 +7,6 @@ export default function CourseRoutes(app) {
         res.send(courses);
     });
 
-    //4.4.1
     const findCoursesForEnrolledUser = (req, res) => {
         let { userId } = req.params;
         if (userId === "current") {
@@ -23,14 +22,12 @@ export default function CourseRoutes(app) {
     };
     app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
 
-    //4.4.3
     app.delete("/api/courses/:courseId", (req, res) => {
         const { courseId } = req.params;
         const status = dao.deleteCourse(courseId);
         res.send(status);
     });
 
-    //4.4.4
     app.put("/api/courses/:courseId", (req, res) => {
         const { courseId } = req.params;
         const courseUpdates = req.body;
@@ -38,7 +35,6 @@ export default function CourseRoutes(app) {
         res.send(status);
     });
 
-    //4.5.1
     app.get("/api/courses/:courseId/modules", (req, res) => {
         const { courseId } = req.params;
         console.log(`COURSES API - looking for modules from course ${courseId}`)
@@ -46,7 +42,6 @@ export default function CourseRoutes(app) {
         res.json(modules);
     });
 
-    //4.5.2
     app.post("/api/courses/:courseId/modules", (req, res) => {
         const { courseId } = req.params;
         const module = {
