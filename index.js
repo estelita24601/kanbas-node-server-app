@@ -58,9 +58,12 @@ app.use(express.json());
 //TESTING only
 app.get("/test", async (req, res) => {
     const dbCollections = await mongoose.connection.db.listCollections().toArray();
-    console.log("Collections in database =", dbCollections);
+    console.log("Collections in database =", dbCollections); //shows all collections we expected
 
-    // const allUsers = await mongoose.connection.db.createCollection("test_collection")
+    //see if there's data inside of the collection
+    const users = await mongoose.connection.db.collection("users").find().toArray();
+    console.log("Raw users from the database:", users);
+    res.json(users);
 });
 
 
