@@ -7,6 +7,13 @@ export default function CourseRoutes(app) {
         res.send(courses);
     });
 
+    //a6 - 5.1.1
+    app.post("/api/courses", async (req, res) => {
+        const course = await dao.createCourse(req.body);
+        console.log(`created new course ${JSON.stringify(course)}`);
+        res.json(course);
+    });
+
     const findCoursesForEnrolledUser = async (req, res) => {
         let { userId } = req.params;
         if (userId === "current") {

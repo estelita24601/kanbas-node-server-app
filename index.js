@@ -55,18 +55,6 @@ app.use(
 //let us receive data from client inside of the request body
 app.use(express.json());
 
-//TESTING only
-app.get("/test", async (req, res) => {
-    const dbCollections = await mongoose.connection.db.listCollections().toArray();
-    console.log("Collections in database =", dbCollections); //shows all collections we expected
-
-    //see if there's data inside of the collection
-    const users = await mongoose.connection.db.collection("users").find().toArray();
-    console.log("Raw users from the database:", users);
-    res.json(users);
-});
-
-
 UserRoutes(app); //4.2 - 4.3 User Sessions
 CourseRoutes(app); //4.4 Courses API
 ModuleRoutes(app); //4.5 Modules API

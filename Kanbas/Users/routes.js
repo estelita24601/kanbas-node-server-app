@@ -9,20 +9,8 @@ export default function UserRoutes(app) {
     };
     app.post("/api/users", createUser);
 
-    const deleteUser = async (req, res) => {
-        const status = await dao.deleteUser(req.params.userId);
-        res.json(status);
-    };
-    app.delete("/api/users/:userId", deleteUser);
-
     const findAllUsers = async (req, res) => {
         const { role, name } = req.query;
-
-        //testing: just immediately send all users and print to log
-        const allUsers = await dao.findAllUsers();
-        res.json(allUsers);
-        console.log(`users from the database = ${JSON.stringify(allUsers, null, 2)}`);
-        return;
 
         if (role && name) {
             //if they queried by both filter by role and name
@@ -53,33 +41,8 @@ export default function UserRoutes(app) {
             const allUsers = await dao.findAllUsers();
             res.json(allUsers);
         }
-
-
     };
     app.get("/api/users", findAllUsers);
-
-    const findUserById = async (req, res) => {
-        const user = await dao.findUserById(req.params.userId);
-        res.json(user);
-    };
-    app.get("/api/users/:userId", findUserById);
-
-    const updateUser = async (req, res) => {
-        //update the user we were given
-        const userId = req.params.userId;
-        const userUpdates = req.body;
-        await dao.updateUser(userId, userUpdates);
-
-        //see if user currently logged in is the same as user we just updated
-        const currentUser = req.session["currentUser"];
-        if (currentUser && currentUser._id === userId) {
-            //update the current user in the session as well as the db
-            req.session["currentUser"] = { ...currentUser, ...userUpdates };
-        }
-
-        res.json(currentUser);
-    };
-    app.put("/api/users/:userId", updateUser);
 
     const signup = async (request, response) => {
         const user = await dao.findUserByUsername(request.body.username);
@@ -100,6 +63,7 @@ export default function UserRoutes(app) {
 
         if (currentUser) {
             req.session["currentUser"] = currentUser;
+            console.log(`logging in as user ${JSON.stringify(currentUser)}`);
             res.status(200);
             res.json(currentUser);
         } else {
@@ -136,4 +100,35 @@ export default function UserRoutes(app) {
         res.json(newCourse);
     };
     app.post("/api/users/current/courses", createCourse);
+
+    const deleteUser = async (req, res) => {
+        const status = await dao.deleteUser(req.params.userId);
+        res.json(status);
+    };
+    app.delete("/api/users/:userId", deleteUser);
+
+    const findUserById = async (req, res) => {
+        const user = await dao.findUserById(req.params.userId);
+        res.json(user);
+    };
+    app.get("/api/users/:userId", findUserById);
+
+    const updateUser = async (req, res) => {
+        //update the user we were given
+        const userId = req.params.userId;
+        const userUpdates = req.body;
+        await dao.updateUser(userId, userUpdates);
+
+        //see if user currently logged in is the same as user we just updated
+        const currentUser = req.session["currentUser"];
+        if (currentUser && currentUser._id === userId) {
+            //update the current user in the session as well as the db
+            req.session["currentUser"] = { ...currentUser, ...userUpdates };
+        }
+
+        res.json(currentUser);
+    };
+    app.put("/api/users/:userId", updateUser);
+
+
 }
