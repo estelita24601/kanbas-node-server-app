@@ -36,7 +36,7 @@ export default function WorkingWithArrays(app) {
   //create a new todo item
   app.post("/lab5/todos", (request, response) => {
     //client sent us JSON data inside of the request body
-    const newTodo = {...request.body, id: new Date().getTime()};
+    const newTodo = { ...request.body, id: new Date().getTime() };
     todos.push(newTodo); //update array in our server with the new object
     response.json(newTodo); //don't send entire list back, just send the new object we made
   })
@@ -59,7 +59,7 @@ export default function WorkingWithArrays(app) {
     todos.splice(todoIndex, 1);
     res.json(todos);
   });
-PageTransitionEvent
+
   //3.6.2 - DELETE REQUEST
   app.delete("/lab5/todos/:id", (req, res) => {
     const { id } = req.params;
@@ -76,7 +76,7 @@ PageTransitionEvent
   app.put("/lab5/todos/:id", (req, res) => {
     const { id } = req.params;
 
-      //3.6.4 - HANDLING ERRORS
+    //3.6.4 - HANDLING ERRORS
     //make sure item with this index exists in our list
     const todoIndex = todos.findIndex((t) => t.id === parseInt(id));
     if (todoIndex === -1) {

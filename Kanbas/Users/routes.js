@@ -149,4 +149,25 @@ export default function UserRoutes(app) {
     };
     app.get("/api/users/:uid/courses", findCoursesForUser);
 
+    const enrollUserInCourse = async (req, res) => {
+        let { uid, cid } = req.params;
+        if (uid === "current") {
+            const currentUser = req.session["currentUser"];
+            uid = currentUser._id;
+        }
+        const status = await enrollmentsDao.enrollUserInCourse(uid, cid);
+        res.send(status);
+    };
+    app.post("/api/users/:uid/courses/:cid", enrollUserInCourse);
+
+    const unenrollUserFromCourse = async (req, res) => {
+        let { uid, cid } = req.params;
+        if (uid === "current") {
+            const currentUser = req.session["currentUser"];
+            uid = currentUser._id;
+        }
+        const status = await enrollmentsDao.unenrollUserFromCourse(uid, cid);
+        res.send(status);
+    };
+    app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse);
 }
