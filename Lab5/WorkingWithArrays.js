@@ -59,7 +59,7 @@ export default function WorkingWithArrays(app) {
     todos.splice(todoIndex, 1);
     res.json(todos);
   });
-
+PageTransitionEvent
   //3.6.2 - DELETE REQUEST
   app.delete("/lab5/todos/:id", (req, res) => {
     const { id } = req.params;

@@ -5,6 +5,7 @@ export function getAssignments(courseID) {
     return Database.assignments.filter((assignment) => assignment.course === courseID);
 }
 
+//get one specific assignment
 export function getAssignment(assignmentID) {
     return Database.assignments.find((assignment) => assignment._id === assignmentID);
 }

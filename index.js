@@ -15,6 +15,7 @@ import EnrollmentsRoutes from "./Kanbas/Enrollments/routes.js";
 //connect to our database
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
 mongoose.connect(CONNECTION_STRING);
+console.log(CONNECTION_STRING);
 
 // create instance of express
 const app = express();

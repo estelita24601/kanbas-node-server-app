@@ -10,11 +10,6 @@ export function findCoursesForEnrolledUser(userId) {
   enrollments = enrollmentsDao.getUserEnrollments(userId).map(e => e.course);
 
   return model.find({ _id: { $in: enrollments } });
-
-  // const { courses, enrollments } = Database;
-  // const enrolledCourses = courses.filter((course) =>
-  //   enrollments.some((enrollment) => enrollment.user === userId && enrollment.course === course._id));
-  // return enrolledCourses;
 }
 
 export function createCourse(course) {

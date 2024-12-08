@@ -1,20 +1,38 @@
 import * as modulesDao from "./dao.js";
 
 export default function ModuleRoutes(app) {
-    //4.5.3
-    app.delete("/api/modules/:moduleId", (req, res) => {
+    //delete module
+    app.delete("/api/modules/:moduleId", async (req, res) => {
         const { moduleId } = req.params;
-        const status = modulesDao.deleteModule(moduleId); //FIXME: had to remove await keyword
-        res.send(status);
+        console.log(`MODULES DAO - trying to delete module ${JSON.stringify(moduleId)}`)
+        const result = await modulesDao.deleteModule(moduleId);
+
+        if (result.acknowledged) {
+            const n = result.deletedCount;
+            if (n > 0) {
+                res.status(200).send(`deleted ${n} modules`);
+            } else {
+                res.status(404);
+            }
+        } else {
+            res.status(500);
+        }
     });
 
-    //4.5.4
-    app.put("/api/modules/:moduleId", (req, res) => {
+    //update module
+    app.put("/api/modules/:moduleId", async (req, res) => {
         const { moduleId } = req.params;
         const moduleUpdates = req.body;
-        const status = modulesDao.updateModule(moduleId, moduleUpdates); //FIXME: had to remove await keyword
-        res.send(status);
+        const result = await modulesDao.updateModule(moduleId, moduleUpdates);
+        if (result.acknowledged) {
+            const n = result.modifiedCount;
+            if (n > 0) {
+                res.status(200).send(`modified ${n} modules`);
+            } else {
+                res.status(404);
+            }
+        } else {
+            res.status(500);
+        }
     });
 }
-
-

@@ -63,7 +63,7 @@ export default function UserRoutes(app) {
 
         if (currentUser) {
             req.session["currentUser"] = currentUser;
-            console.log(`logging in as user ${JSON.stringify(currentUser)}`);
+            console.log(`logging in as user ${JSON.stringify(currentUser, null, 2)}`);
             res.status(200);
             res.json(currentUser);
         } else {
@@ -93,8 +93,7 @@ export default function UserRoutes(app) {
     const createCourse = async (req, res) => {
         const currentUser = req.session["currentUser"];
 
-        //TODO: add await keyword once we've connected the course dao and enrollments dao to mongodb
-        const newCourse = courseDao.createCourse(req.body);
+        const newCourse = await courseDao.createCourse(req.body);
         enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
 
         res.json(newCourse);
@@ -130,5 +129,24 @@ export default function UserRoutes(app) {
     };
     app.put("/api/users/:userId", updateUser);
 
+    const findCoursesForUser = async (req, res) => {
+        const currentUser = req.session["currentUser"];
+        if (!currentUser) {
+            res.sendStatus(401);
+            return;
+        }
+        if (currentUser.role === "ADMIN") {
+            const courses = await courseDao.findAllCourses();
+            res.json(courses);
+            return;
+        }
+        let { uid } = req.params;
+        if (uid === "current") {
+            uid = currentUser._id;
+        }
+        const courses = await enrollmentsDao.findCoursesForUser(uid);
+        res.json(courses);
+    };
+    app.get("/api/users/:uid/courses", findCoursesForUser);
 
 }

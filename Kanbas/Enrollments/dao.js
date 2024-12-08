@@ -1,46 +1,29 @@
-import Database from "../Database/index.js";
+import model from "./model.js";
 
-export function enrollUserInCourse(userId, courseId) {
-    console.log(`\tDAO - add user ${userId} to course ${courseId}`)
-
-    const initSize = Database.enrollments.length;
-    Database.enrollments.push({ _id: Date.now().toString(), user: userId, course: courseId });
-
-    return Database.enrollments.length - initSize;
+export async function findCoursesForUser(userId) {
+    const enrollments = await model.find({ user: userId }).populate("course");
+    return enrollments.map((enrollment) => enrollment.course);
+}
+export async function findUsersForCourse(courseId) {
+    const enrollments = await model.find({ course: courseId }).populate("user");
+    return enrollments.map((enrollment) => enrollment.user);
 }
 
-export function unenrollUserFromCourse(userId, courseId) {
-    console.log(`\tDAO - remove user ${userId} from course ${courseId}`);
-    const { enrollments } = Database;
-
-    const enrollmentIndex = enrollments.findIndex((enrollment) => enrollment.user === userId && enrollment.course === courseId)
-    if (enrollmentIndex !== -1) {
-        Database.enrollments = enrollments.filter((enrollment) => enrollment.user === userId && enrollment.course === courseId);
-    }
-
-    return enrollmentIndex;
+export function enrollUserInCourse(user, course) {
+    console.log(`DAO - enrollUserInCourse`);
+    return model.create({ user, course });
+}
+export function unenrollUserFromCourse(user, course) {
+    console.log(`DAO - unenrollUserFromCourse`);
+    return model.deleteOne({ user, course });
 }
 
 export function removeEnrollment(userId, courseId) {
-    console.log(`\tDAO - remove user ${userId} from course ${courseId}`);
-    const { enrollments } = Database;
-
-    const initSize = enrollments.length;
-    Database.enrollments = enrollments.filter(e => {
-        const sameUser = e.user === userId;
-        const sameCourse = e.course === courseId;
-        if (sameUser && sameCourse) {
-            console.log(`\t\tremoving ${JSON.stringify(e)}`);
-            return false;
-        } else {
-            return true;
-        }
-    });
-
-    return initSize - Database.enrollments.length;
+    console.log(`\tDAO - removeEnrollment\n\tuser = ${JSON.stringify(userId)}\n\tcourse = ${JSON.stringify(courseId)}`);
+    return model.deleteOne({ user: userId, course: courseId });
 }
 
 export function getUserEnrollments(userId) {
-    console.log(`\tDAO - get enrollments for user ${userId}`);
-    return Database.enrollments.filter((enrollment) => enrollment.user === userId);
+    console.log(`\tDAO - getUserEnrollments ${JSON.stringify(userId)}`);
+    return model.find({ user: userId });
 }
