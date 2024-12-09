@@ -17,7 +17,7 @@ const assignmentSchema = new mongoose.Schema(
         submission_type: String,
         entry_options: [String]
     },
-    {collection: "assignments"}
+    { collection: "assignments" }
 
 );
 export default assignmentSchema;

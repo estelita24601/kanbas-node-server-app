@@ -33,12 +33,7 @@ export default function AssignmentRoutes(app) {
 
         const result = await dao.updateAssignment(assignmentId, assignment);
         if (result.acknowledged) {
-            const n = result.modifiedCount;
-            if (n > 0) {
-                response.status(200).send(`updated ${n} assignments`);
-            } else {
-                response.status(404).send("Couldn't find assignment to update");
-            }
+            response.status(200).send(`updated ${result.modifiedCount} assignments`);
         } else {
             response.sendStatus(500);
         }
@@ -52,12 +47,7 @@ export default function AssignmentRoutes(app) {
 
         const result = await dao.deleteAssignment(assignmentId);
         if (result.acknowledged) {
-            const n = result.deletedCount;
-            if (n > 0) {
-                response.status(200).send(`deleted ${n} assignments`);
-            } else {
-                response.status(404).send("Couldn't find assignment to delete");
-            }
+            response.status(200).send(`deleted ${result.deletedCount} assignments`);
         } else {
             response.sendStatus(500);
         }

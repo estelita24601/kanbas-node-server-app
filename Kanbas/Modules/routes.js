@@ -25,12 +25,7 @@ export default function ModuleRoutes(app) {
         const moduleUpdates = req.body;
         const result = await modulesDao.updateModule(moduleId, moduleUpdates);
         if (result.acknowledged) {
-            const n = result.modifiedCount;
-            if (n > 0) {
-                res.status(200).send(`modified ${n} modules`);
-            } else {
-                res.status(404);
-            }
+            res.status(200).send(`modified ${result.modifiedCount} modules`);
         } else {
             res.status(500);
         }
