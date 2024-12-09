@@ -14,7 +14,7 @@ export function getAssignment(assignmentID) {
 export function createAssignment(assignment) {
     const newAssignment = {
         title: "",
-        available_date: new Date.now().toString(),
+        available_date: new Date().toISOString(),
         available_time: "",
         due_by_date: "",
         due_by_time: "",

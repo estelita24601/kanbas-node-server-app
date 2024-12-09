@@ -6,7 +6,7 @@ export default function CourseRoutes(app) {
     //find all courses
     app.get("/api/courses", async (req, res) => {
         const courses = await dao.findAllCourses();
-        res.send(courses);
+        res.send(courses.filter(c => c !== null));
     });
 
     //create new course
@@ -33,14 +33,14 @@ export default function CourseRoutes(app) {
             userId = currentUser._id;
         }
         const courses = await dao.findCoursesForEnrolledUser(userId);
-        res.json(courses);
+        res.json(courses.filter(c => c !== null));
     };
     app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
 
     const findUsersForCourse = async (req, res) => {
         const { cid } = req.params;
         const users = await enrollmentsDao.findUsersForCourse(cid);
-        res.json(users);
+        res.json(users.filter(u => u !== null));
     };
     app.get("/api/courses/:cid/users", findUsersForCourse);
 
@@ -74,7 +74,7 @@ export default function CourseRoutes(app) {
         console.log(`COURSES API - looking for modules from course ${JSON.stringify(courseId)}`)
         const modules = await modulesDao.findModulesForCourse(courseId);
         console.log(`\t${JSON.stringify(modules, null, 2)}`);
-        res.json(modules);
+        res.json(modules.filter(m => m !== null));
     });
 
     //new module

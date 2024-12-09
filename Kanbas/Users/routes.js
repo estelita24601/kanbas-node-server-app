@@ -145,7 +145,7 @@ export default function UserRoutes(app) {
             uid = currentUser._id;
         }
         const courses = await enrollmentsDao.findCoursesForUser(uid);
-        res.json(courses);
+        res.json(courses.filter(c => c !== null));
     };
     app.get("/api/users/:uid/courses", findCoursesForUser);
 

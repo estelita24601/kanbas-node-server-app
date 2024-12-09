@@ -8,7 +8,7 @@ export default function EnrollmentsRoutes(app) {
 
         const userEnrollments = await dao.getUserEnrollments(userId);
         console.log(`\t${JSON.stringify(userEnrollments, null, 2)}`);
-        res.json(userEnrollments);
+        res.json(userEnrollments.filter(e => e !== null));
     })
 
     //add enrollment

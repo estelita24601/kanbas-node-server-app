@@ -6,7 +6,9 @@ export default function AssignmentRoutes(app) {
     app.get(`${API}/:courseId`, async (request, response) => {
         const { courseId } = request.params;
         console.log(`ASSIGNMENTS API - get request, courseId = ${courseId}`);
-        const assignments = await dao.getAssignments(courseId);
+        
+        let assignments = await dao.getAssignments(courseId);
+        assignments = assignments.filter((a) => a !== null);
         response.json(assignments);
     });
 
@@ -14,7 +16,11 @@ export default function AssignmentRoutes(app) {
     app.get(`${API}/:courseId/:assignmentId`, async (request, response) => {
         const { assignmentId } = request.params;
         const assignment = await dao.getAssignment(assignmentId);
-        response.json(assignment);
+        if(assignment !== null){
+            response.json(assignment);
+        }else{
+            response.status(404).send(`unable to find assignment with id ${assignmentId}`);
+        }
     })
 
     //create assignment
